@@ -55,5 +55,6 @@ class UpdateGameServiceTest extends TestCase
         $result = $this->testService->handle(1, 1, 5);
 
         $this->assertInstanceOf(GameDto::class, $result);
+        $this->assertSame(5, $result->awayTeamScore);
     }
 }
