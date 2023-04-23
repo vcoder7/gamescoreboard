@@ -21,16 +21,16 @@ class UpdateGameService
         if (null === $gameDto) {
             throw new GameNotFoundException('Game not found');
         }
+
         $currentGames = $this->getCurrentGamesService->handle();
 
-        $updatedGameDto = clone $gameDto;
-        $updatedGameDto->homeTeamScore = $homeTeamScoreQuestion;
-        $updatedGameDto->awayTeamScore = $awayTeamScoreQuestion;
+        $gameDto->homeTeamScore = $homeTeamScoreQuestion;
+        $gameDto->awayTeamScore = $awayTeamScoreQuestion;
 
-        $currentGames[$gameId] = (array) $updatedGameDto;
+        $currentGames[$gameId] = (array) $gameDto;
 
         $this->scoreboardCache->set($currentGames);
 
-        return $updatedGameDto;
+        return $gameDto;
     }
 }
