@@ -19,3 +19,6 @@
 - Start a new game: ```docker-compose exec phpfpm bin/console game:start```
 - Update a game: ```docker-compose exec phpfpm bin/console game:update```
 - Finish a game: ```docker-compose exec phpfpm bin/console game:finish```
+
+## PHP unit tests
+- Run PHP unit tests: ```docker-compose exec phpfpm php bin/phpunit```
