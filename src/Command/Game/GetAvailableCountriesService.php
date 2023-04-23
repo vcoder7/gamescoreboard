@@ -2,6 +2,7 @@
 
 namespace App\Command\Game;
 
+use App\Application\Dto\GameDto;
 use App\Application\Services\GetCurrentGamesService;
 
 class GetAvailableCountriesService
@@ -20,7 +21,14 @@ class GetAvailableCountriesService
             return self::COUNTRIES;
         }
 
-        $availableCountries =  [];
+        $playingTeams =  [];
 
+        /* @var GameDto $game */
+        foreach ($currentGames as $game) {
+            $playingTeams[] = $game->homeTeam;
+            $playingTeams[] = $game->awayTeam;
+        }
+
+        return array_diff(self::COUNTRIES, $playingTeams);
     }
 }

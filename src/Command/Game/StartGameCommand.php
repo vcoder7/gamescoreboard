@@ -4,23 +4,32 @@ namespace App\Command\Game;
 
 use App\Application\Cache\ScoreboardCache;
 use App\Application\Dto\GameDto;
+use App\Application\Services\GetCurrentGamesService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 
-class StartGameCommand extends Command
+class StartGameCommand extends AbstractGameCommand
 {
     protected static $defaultName = 'game:start';
 
-    public function __construct(private readonly ScoreboardCache $scoreboardCache)
-    {
-        parent::__construct(self::$defaultName);
+    public function __construct(
+        GetCurrentGamesService $getCurrentGamesService,
+        private readonly ScoreboardCache $scoreboardCache,
+        private readonly GetAvailableCountriesService $getAvailableCountriesService
+    ) {
+        parent::__construct($getCurrentGamesService);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $countries = ['Uruguay', 'Italy', 'Spain', 'Brazil', 'Mexico', 'Canada', 'Argentina', 'Australia', 'Germany', 'France'];
+        $countries = $this->getAvailableCountriesService->handle();
+        if (count($countries) < 1) {
+            $output->writeln('<info>All teams are playing right now!</info>');
+            return Command::FAILURE;
+        }
+
         $helper = $this->getHelper('question');
 
         $homeTeamSelection = new ChoiceQuestion('Please select home team', $countries);

@@ -2,6 +2,7 @@
 
 namespace App\Tests\Application\Services;
 
+use App\Application\Dto\GameDto;
 use App\Application\Services\GetCurrentGamesService;
 use App\Command\Game\GetAvailableCountriesService;
 use App\Exception\GameNotFoundException;
@@ -21,12 +22,25 @@ class GetAvailableCountriesServiceTest extends TestCase
         );
     }
 
-    public function testGivenWrongGameThenThrowException(): void
+    public function testGivenEmptyFromCurrentGamesServiceThenReturnAllCountries(): void
     {
         $this->getCurrentGamesService->expects($this->once())->method('handle')->willReturn([]);
 
         $result = $this->testService->handle();
 
         $this->assertSame(10, count($result));
+    }
+
+    public function testGivenFourPlayingTeamsThenReturnSixAvailableTeams(): void
+    {
+        $games = [
+            new GameDto('Italy', 'Germany', 3, 0),
+            new GameDto('Canada', 'Mexico', 1, 4)
+        ];
+        $this->getCurrentGamesService->expects($this->once())->method('handle')->willReturn($games);
+
+        $result = $this->testService->handle();
+
+        $this->assertSame(6, count($result));
     }
 }

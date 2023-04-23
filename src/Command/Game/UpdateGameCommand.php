@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
-class UpdateGameCommand extends GameCommandAbstract
+class UpdateGameCommand extends AbstractGameCommand
 {
     protected static $defaultName = 'game:update';
 

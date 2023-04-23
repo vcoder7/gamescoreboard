@@ -6,7 +6,7 @@ use App\Application\Services\GetCurrentGamesService;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class GetCurrentGamesCommand extends GameCommandAbstract
+class GetCurrentGamesCommandGameCommand extends AbstractGameCommand
 {
     protected static $defaultName = 'game:current_games';
 
