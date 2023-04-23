@@ -3,28 +3,34 @@
 namespace App\Application\Services;
 
 use App\Application\Cache\ScoreboardCache;
+use App\Application\Dto\GameDto;
+use App\Exception\GameNotFoundException;
 
 class UpdateGameService
 {
     public function __construct(
         private readonly ScoreboardCache $scoreboardCache,
         private readonly GetGameService $getGameService,
+        private readonly GetCurrentGamesService $getCurrentGamesService
     ) {
     }
 
-    public function handle(int $gameId, int $homeTeamScoreQuestion, $awayTeamScoreQuestion): bool
+    public function handle(int $gameId, int $homeTeamScoreQuestion, int $awayTeamScoreQuestion): GameDto
     {
-        $currentGames = $this->scoreboardCache->get();
-        $game = $this->getGameService->handle($gameId);
+        $gameDto = $this->getGameService->handle($gameId);
+        if (null === $gameDto) {
+            throw new GameNotFoundException('Game not found');
+        }
+        $currentGames = $this->getCurrentGamesService->handle();
 
-        $updatedGame = clone $game;
-        $updatedGame->homeTeamScore = $homeTeamScoreQuestion;
-        $updatedGame->awayTeamScore = $awayTeamScoreQuestion;
+        $updatedGameDto = clone $gameDto;
+        $updatedGameDto->homeTeamScore = $homeTeamScoreQuestion;
+        $updatedGameDto->awayTeamScore = $awayTeamScoreQuestion;
 
-        $currentGames[$gameId] = (array) $updatedGame;
+        $currentGames[$gameId] = (array) $updatedGameDto;
 
         $this->scoreboardCache->set($currentGames);
 
-        return true;
+        return $updatedGameDto;
     }
 }
