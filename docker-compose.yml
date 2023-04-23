@@ -1,0 +1,28 @@
+version: '3'
+services:
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "89:80"
+      - "449:443"
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - phpfpm
+
+  phpfpm:
+    build:
+      context: .
+      dockerfile: env/Dockerfile
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./env/php/php.ini:/usr/local/etc/php/php.ini
