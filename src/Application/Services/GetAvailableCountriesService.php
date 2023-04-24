@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Command\Game;
+namespace App\Application\Services;
 
 use App\Application\Dto\GameDto;
-use App\Application\Services\GetCurrentGamesService;
 
 class GetAvailableCountriesService
 {

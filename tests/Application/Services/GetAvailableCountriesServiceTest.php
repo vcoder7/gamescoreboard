@@ -3,9 +3,8 @@
 namespace App\Tests\Application\Services;
 
 use App\Application\Dto\GameDto;
+use App\Application\Services\GetAvailableCountriesService;
 use App\Application\Services\GetCurrentGamesService;
-use App\Command\Game\GetAvailableCountriesService;
-use App\Exception\GameNotFoundException;
 use PHPUnit\Framework\TestCase;
 
 class GetAvailableCountriesServiceTest extends TestCase

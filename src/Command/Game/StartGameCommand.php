@@ -4,6 +4,7 @@ namespace App\Command\Game;
 
 use App\Application\Cache\ScoreboardCache;
 use App\Application\Dto\GameDto;
+use App\Application\Services\GetAvailableCountriesService;
 use App\Application\Services\GetCurrentGamesService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
