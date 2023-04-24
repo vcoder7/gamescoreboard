@@ -30,7 +30,8 @@ class FinishGameCommand extends AbstractGameCommand
             return Command::FAILURE;
         }
 
-        $gameIdQuestionResponse = $helper->ask($input, $output, new Question('Please insert game ID you would like to finish? (Default: 0)'));
+        $gameIdQuestion = $this->askMyQuestion('Please insert game ID you would like to finish?');
+        $gameIdQuestionResponse = $helper->ask($input, $output, $gameIdQuestion);
 
         try {
             $this->finishGameService->handle((int) $gameIdQuestionResponse);

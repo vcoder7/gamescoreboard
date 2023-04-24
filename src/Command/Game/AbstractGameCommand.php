@@ -7,6 +7,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\Question;
 
 abstract class AbstractGameCommand extends Command
 {
@@ -35,5 +36,22 @@ abstract class AbstractGameCommand extends Command
         $table->render();
 
         return Command::SUCCESS;
+    }
+
+    protected function askMyQuestion(string $myQuestion): Question
+    {
+        $customInputValidation = function ($value = null) {
+            if (preg_match("/[a-z]/i", $value) || !preg_match('/^([0-9]|10|[^\d])$/', $value)) {
+                throw new \Exception('Inserted value is not correct, please insert a number between 0 and 10!');
+            }
+
+            return $value;
+        };
+
+        $question = new Question($myQuestion);
+        $question->setTrimmable(true);
+        $question->setValidator($customInputValidation);
+
+        return $question;
     }
 }

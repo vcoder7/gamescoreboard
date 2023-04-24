@@ -8,7 +8,6 @@ use App\Application\Services\UpdateGameService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\Question;
 
 class UpdateGameCommand extends AbstractGameCommand
 {
@@ -31,18 +30,7 @@ class UpdateGameCommand extends AbstractGameCommand
             return Command::FAILURE;
         }
 
-        $customInputValidation = function ($value) {
-            if (preg_match("/[a-z]/i", $value) || !preg_match('/^([0-9]|10|[^\d])$/', $value)) {
-                throw new \Exception('Inserted value is not correct, please insert a number between 0 and 10!');
-            }
-
-            return $value;
-        };
-
-        $gameIdQuestion = new Question('Please insert game ID you would like to update? (Default: 0)');
-        $gameIdQuestion->setTrimmable(true);
-        $gameIdQuestion->setValidator($customInputValidation);
-
+        $gameIdQuestion = $this->askMyQuestion('Please insert game ID you would like to update?');
         $gameIdQuestionResponse = $helper->ask($input, $output, $gameIdQuestion);
         $currentGame = $this->getGameService->handle($gameIdQuestionResponse);
         if (null === $currentGame) {
@@ -50,14 +38,10 @@ class UpdateGameCommand extends AbstractGameCommand
             return Command::FAILURE;
         }
 
-        $homeTeamScoreQuestion = new Question('Please insert score for HOME team (' . $currentGame->homeTeam . ')?');
-        $homeTeamScoreQuestion->setTrimmable(true);
-        $homeTeamScoreQuestion->setValidator($customInputValidation);
+        $homeTeamScoreQuestion = $this->askMyQuestion('Please insert score for HOME team (' . $currentGame->homeTeam . ')?');
         $homeTeamScore = $helper->ask($input, $output, $homeTeamScoreQuestion);
 
-        $awayTeamScoreQuestion = new Question('Please insert score for AWAY team (' . $currentGame->awayTeam . ')?');
-        $awayTeamScoreQuestion->setTrimmable(true);
-        $awayTeamScoreQuestion->setValidator($customInputValidation);
+        $awayTeamScoreQuestion = $this->askMyQuestion('Please insert score for AWAY team (' . $currentGame->awayTeam . ')?');
         $awayTeamScore = $helper->ask($input, $output, $awayTeamScoreQuestion);
 
         $this->updateGameService->handle((int) $gameIdQuestionResponse, (int) $homeTeamScore, (int) $awayTeamScore);
