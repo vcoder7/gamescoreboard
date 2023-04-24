@@ -31,17 +31,36 @@ class UpdateGameCommand extends AbstractGameCommand
             return Command::FAILURE;
         }
 
-        $gameIdQuestionResponse = $helper->ask($input, $output, new Question('Please insert game ID you would like to update? (Default: 0)'));
+        $customInputValidation = function ($value) {
+            if (preg_match("/[a-z]/i", $value) || !preg_match('/^([0-9]|10|[^\d])$/', $value)) {
+                throw new \Exception('Inserted value is not correct, please insert a number between 0 and 10!');
+            }
+
+            return $value;
+        };
+
+        $gameIdQuestion = new Question('Please insert game ID you would like to update? (Default: 0)');
+        $gameIdQuestion->setTrimmable(true);
+        $gameIdQuestion->setValidator($customInputValidation);
+
+        $gameIdQuestionResponse = $helper->ask($input, $output, $gameIdQuestion);
         $currentGame = $this->getGameService->handle($gameIdQuestionResponse);
         if (null === $currentGame) {
             $output->writeln(sprintf('<error>Game with %s ID can\'t be found</error>', $gameIdQuestionResponse));
             return Command::FAILURE;
         }
 
-        $homeTeamScoreQuestion = $helper->ask($input, $output, new Question('Please insert score for HOME team (' . $currentGame->homeTeam . ')?'));
-        $awayTeamScoreQuestion = $helper->ask($input, $output, new Question('Please insert score for AWAY team (' . $currentGame->awayTeam . ')?'));
+        $homeTeamScoreQuestion = new Question('Please insert score for HOME team (' . $currentGame->homeTeam . ')?');
+        $homeTeamScoreQuestion->setTrimmable(true);
+        $homeTeamScoreQuestion->setValidator($customInputValidation);
+        $homeTeamScore = $helper->ask($input, $output, $homeTeamScoreQuestion);
 
-        $this->updateGameService->handle((int) $gameIdQuestionResponse, (int) $homeTeamScoreQuestion, (int) $awayTeamScoreQuestion);
+        $awayTeamScoreQuestion = new Question('Please insert score for AWAY team (' . $currentGame->awayTeam . ')?');
+        $awayTeamScoreQuestion->setTrimmable(true);
+        $awayTeamScoreQuestion->setValidator($customInputValidation);
+        $awayTeamScore = $helper->ask($input, $output, $awayTeamScoreQuestion);
+
+        $this->updateGameService->handle((int) $gameIdQuestionResponse, (int) $homeTeamScore, (int) $awayTeamScore);
         $output->writeln(sprintf('<info>Game with ID %s successfully removed</info>', $gameIdQuestionResponse));
 
         $this->displayCurrentGamesList($input, $output);
