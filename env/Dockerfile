@@ -1,17 +1,11 @@
 FROM php:8.1-fpm-alpine
 
-RUN set -ex \
-  && apk --no-cache add \
-    postgresql-dev
-
 # Optional, force UTC as server time
 RUN echo "UTC" > /etc/timezone
 
 # Install composer
-ENV COMPOSER_HOME /composer
-ENV PATH ./vendor/bin:/composer/vendor/bin:$PATH
-ENV COMPOSER_ALLOW_SUPERUSER 1
-RUN curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer
+ENV COMPOSER_ALLOW_SUPERUSER=1
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && composer -V
 
 # Setup bzip2 extension
 RUN apk add --no-cache \

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Tests\Application\Services;
+namespace App\Tests\Application\Services\Game;
 
 use App\Application\Cache\ScoreboardCache;
 use App\Application\Dto\GameDto;
-use App\Application\Services\GetGameService;
+use App\Application\Services\Game\GetGameService;
 use PHPUnit\Framework\TestCase;
 
 class GetGameServiceTest extends TestCase

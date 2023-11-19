@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Tests\Application\Services;
+namespace App\Tests\Application\Services\Game;
 
 use App\Application\Cache\ScoreboardCache;
 use App\Application\Dto\GameDto;
-use App\Application\Services\GetCurrentGamesService;
-use App\Application\Services\GetGameService;
-use App\Application\Services\UpdateGameService;
+use App\Application\Services\Game\GetCurrentGamesService;
+use App\Application\Services\Game\GetGameService;
+use App\Application\Services\Game\UpdateGameService;
 use App\Exception\GameNotFoundException;
 use PHPUnit\Framework\TestCase;
 

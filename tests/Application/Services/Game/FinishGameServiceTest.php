@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Tests\Application\Services;
+namespace App\Tests\Application\Services\Game;
 
 use App\Application\Cache\ScoreboardCache;
-use App\Application\Services\FinishGameService;
+use App\Application\Services\Game\FinishGameService;
 use App\Exception\GameNotFoundException;
 use PHPUnit\Framework\TestCase;
 

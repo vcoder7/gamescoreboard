@@ -2,9 +2,9 @@
 
 namespace App\Command\Game;
 
-use App\Application\Services\GetCurrentGamesService;
-use App\Application\Services\GetGameService;
-use App\Application\Services\UpdateGameService;
+use App\Application\Services\Game\GetCurrentGamesService;
+use App\Application\Services\Game\GetGameService;
+use App\Application\Services\Game\UpdateGameService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

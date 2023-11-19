@@ -2,13 +2,12 @@
 
 namespace App\Command\Game;
 
-use App\Application\Services\FinishGameService;
-use App\Application\Services\GetCurrentGamesService;
+use App\Application\Services\Game\FinishGameService;
+use App\Application\Services\Game\GetCurrentGamesService;
 use App\Exception\GameNotFoundException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\Question;
 
 class FinishGameCommand extends AbstractGameCommand
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Tests\Application\Services;
+namespace App\Tests\Application\Services\Game;
 
 use App\Application\Dto\GameDto;
-use App\Application\Services\GetAvailableCountriesService;
-use App\Application\Services\GetCurrentGamesService;
+use App\Application\Services\Game\GetAvailableCountriesService;
+use App\Application\Services\Game\GetCurrentGamesService;
 use PHPUnit\Framework\TestCase;
 
 class GetAvailableCountriesServiceTest extends TestCase

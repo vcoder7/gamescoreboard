@@ -19,5 +19,13 @@
 - Update a game: ```docker-compose exec phpfpm bin/console game:update```
 - Finish a game: ```docker-compose exec phpfpm bin/console game:finish```
 
+## Task
+We have players module which has to be maintained through 2 php service classes.
+- A new player is created with 3 parameters ``number, name and nickname``.
+- An existing player can be updated by its number 
+
+1. We need a new service class for following PhpUnit test```App\Tests\Application\Services\Player\CreatePlayerServiceTest```
+2. Existing service class needs to be PhpUnit tested: ```App\Application\Services\Player\UpdatePlayerService```
+
 ## PHP unit tests
 - Run PHP unit tests: ```docker-compose exec phpfpm php bin/phpunit```
